@@ -2,6 +2,7 @@
 
 import React from 'react'
 import styled from 'styled-components'
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 
 const Container = styled.div`border: 1px solid #ccc;`
 
@@ -32,11 +33,11 @@ class BaseMealBox extends React.Component {
     const { title, foods } = this.props.data
 
     return (
-      <Container>
-        <Title>
+      <Card>
+        <CardTitle>
           {title}
-        </Title>
-      </Container>
+        </CardTitle>
+      </Card>
     )
   }
 }

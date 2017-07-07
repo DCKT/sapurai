@@ -41,7 +41,7 @@ class BaseFormCreateMeal extends React.Component {
             onChange={this._updateMealName}
             value={this.state.mealName}
           />
-          <RaisedButton label="Add" primary />
+          <RaisedButton label="Add" primary type="submit" />
         </form>
       </Dialog>
     )
@@ -57,6 +57,8 @@ class BaseFormCreateMeal extends React.Component {
     const { createNewMeal, toggleDialog } = this.props
 
     e.preventDefault()
+
+    console.log(mealName)
 
     if (mealName) {
       createNewMeal({ title: mealName }).then(() => toggleDialog())
