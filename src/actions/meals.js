@@ -8,7 +8,10 @@ export const createNewMeal = (meal: Meal) => dispatch => {
   return Promise.resolve(
     dispatch({
       type: ACTIONS.MEALS.CREATE,
-      payload: meal
+      payload: {
+        ...meal,
+        id: Date.now()
+      }
     })
   )
 }

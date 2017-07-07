@@ -1,16 +1,8 @@
 // @flow
 
 import React from 'react'
-import styled from 'styled-components'
+import RaisedButton from 'material-ui/RaisedButton'
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
-
-const Container = styled.div`border: 1px solid #ccc;`
-
-const Title = styled.h2`
-  color: #282828;
-  padding: 5px 10px;
-  border-bottom: 1px solid #ccc;
-`
 
 export type Food = {
   name: string,
@@ -19,6 +11,7 @@ export type Food = {
 
 export type Meal = {
   title: string,
+  id: number,
   foods?: Array<Food>
 }
 
@@ -34,9 +27,11 @@ class BaseMealBox extends React.Component {
 
     return (
       <Card>
-        <CardTitle>
-          {title}
-        </CardTitle>
+        <CardTitle title={title} />
+
+        <CardActions>
+          <RaisedButton primary label="Add food" />
+        </CardActions>
       </Card>
     )
   }
