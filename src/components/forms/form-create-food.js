@@ -9,7 +9,7 @@ import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog'
 import { injectIntl } from 'react-intl'
 import styled from 'styled-components'
-
+import { mapValues } from 'lodash'
 /**
  * Actions
  */
@@ -85,7 +85,15 @@ class BaseFormCreateFood extends React.Component {
             </Error>
             : null}
 
-          {['name', 'brand', 'baseQuantity', 'protein', 'lipids', 'carbohydrates'].map((item, i) =>
+          {[
+            'name',
+            'brand',
+            'baseQuantity',
+            'protein',
+            'lipids',
+            'carbohydrates',
+            'kcal'
+          ].map((item, i) =>
             <TextField
               key={i}
               hintText={formatMessage({ id: `form.createFood.${item}.placeholder` })}
@@ -128,7 +136,8 @@ class BaseFormCreateFood extends React.Component {
         protein: {},
         carbohydrates: {},
         lipids: {}
-      }
+      },
+      formError: ''
     }))
     this.props.toggleDialog()
   };
@@ -158,7 +167,8 @@ class BaseFormCreateFood extends React.Component {
 
       return false
     } else {
-      createNewFood(food).then(() => toggleDialog())
+      const data = mapValues(food, t => t.value)
+      createNewFood(data).then(() => toggleDialog())
     }
   };
 }

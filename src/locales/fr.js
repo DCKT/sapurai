@@ -12,6 +12,7 @@ export const fr = {
   'form.createFood.brand.placeholder': 'Marque',
   'form.createFood.lipids.placeholder': 'Lipides',
   'form.createFood.protein.placeholder': 'Protéines',
+  'form.createFood.kcal.placeholder': 'Kcal',
   'form.createFood.carbohydrates.placeholder': 'Glucides',
   'form.createFood.baseQuantity.placeholder': 'Quantité de base',
   'form.createFood.submit': 'Ajouter',
@@ -19,5 +20,6 @@ export const fr = {
   'form.required': 'Champ requis',
   'misc.meal': 'Repas',
   'misc.product': 'Produit',
-  'form.createFood.fillAllFields': 'Veuillez remplir tous les champs'
+  'form.createFood.fillAllFields': 'Veuillez remplir tous les champs',
+  'foodsList.title': 'Liste des produits'
 }

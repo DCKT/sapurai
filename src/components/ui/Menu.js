@@ -6,6 +6,7 @@ import RMenu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
 import Divider from 'material-ui/Divider'
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
+import ListIcon from 'material-ui/svg-icons/action/list'
 import { injectIntl } from 'react-intl'
 
 /**
@@ -13,6 +14,7 @@ import { injectIntl } from 'react-intl'
  */
 import { FormCreateMeal } from '../forms/form-create-meal'
 import { FormCreateFood } from '../forms/form-create-food'
+import { FoodsList } from './FoodsList'
 
 const style = {
   display: 'inline-block',
@@ -27,11 +29,12 @@ class BaseMenu extends React.Component {
   props: Props;
   state = {
     isMealDialogVisible: false,
-    isProductDialogVisible: false
+    isProductDialogVisible: false,
+    isFoodsListDialogVisible: false
   };
 
   render () {
-    const { isMealDialogVisible, isProductDialogVisible } = this.state
+    const { isMealDialogVisible, isProductDialogVisible, isFoodsListDialogVisible } = this.state
     const { intl: { formatMessage } } = this.props
 
     return (
@@ -52,6 +55,12 @@ class BaseMenu extends React.Component {
               />
             ]}
           />
+          <Divider />
+          <MenuItem
+            primaryText="Voir la liste des produits"
+            rightIcon={<ListIcon />}
+            onTouchTap={this._toggleFoodsListDialog}
+          />
         </RMenu>
         <FormCreateMeal
           isDialogVisible={isMealDialogVisible}
@@ -61,6 +70,10 @@ class BaseMenu extends React.Component {
           isDialogVisible={isProductDialogVisible}
           toggleDialog={this._toggleProductDialog}
         />
+        <FoodsList
+          isDialogVisible={isFoodsListDialogVisible}
+          toggleDialog={this._toggleFoodsListDialog}
+        />
       </Paper>
     )
   }
@@ -69,6 +82,12 @@ class BaseMenu extends React.Component {
 
   _toggleProductDialog = () =>
     this.setState(state => ({ ...state, isProductDialogVisible: !state.isProductDialogVisible }));
+
+  _toggleFoodsListDialog = () =>
+    this.setState(state => ({
+      ...state,
+      isFoodsListDialogVisible: !state.isFoodsListDialogVisible
+    }));
 }
 
 export const Menu = injectIntl(BaseMenu)
