@@ -3,15 +3,23 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import TextField from 'material-ui/TextField'
+import MTextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog'
 import { injectIntl } from 'react-intl'
+import styled from 'styled-components'
 
 /**
  * Actions
  */
-import { createFood } from '../../actions/foods'
+import { createNewFood } from '../../actions/foods'
+
+const TextField = styled(MTextField)`
+  margin: 0 10px;
+`
+
+const Error = styled.p`color: #f44336;`
 
 export type Brand = {
   name: string
@@ -21,18 +29,15 @@ export type Food = {
   id: string,
   name: string,
   brand?: Brand,
-  quantity?: string,
-  informations: {
-    for: string,
-    kcal: string,
-    protein: string,
-    carbohydrates: string,
-    lipids: string
-  }
+  baseQuantity: string,
+  kcal: string,
+  protein: string,
+  carbohydrates: string,
+  lipids: string
 }
 
 type Props = {
-  createFood: () => Promise<*>,
+  createNewFood: () => Promise<*>,
   toggleDialog: () => void,
   isDialogVisible: boolean,
   intl: Object
@@ -42,54 +47,124 @@ class BaseFormCreateFood extends React.Component {
   props: Props;
 
   state = {
-    mealName: ''
+    formError: false,
+    food: {
+      name: {},
+      brand: {},
+      baseQuantity: {},
+      kcal: {},
+      protein: {},
+      carbohydrates: {},
+      lipids: {}
+    }
   };
 
   render () {
-    const { toggleDialog, isDialogVisible, intl: { formatMessage } } = this.props
+    const { isDialogVisible, intl: { formatMessage } } = this.props
+    const { food, formError } = this.state
 
     return (
       <Dialog
         title={formatMessage({ id: 'form.createFood.title' })}
         modal={false}
         open={isDialogVisible}
-        onRequestClose={toggleDialog}
-      >
-        <form onSubmit={this._onSubmit}>
-          <TextField
-            hintText={formatMessage({ id: 'form.createFood.input.placeholder' })}
-            onChange={this._updateMealName}
-            value={this.state.mealName}
-          />
+        onRequestClose={this._resetForm}
+        actions={[
+          <FlatButton label={formatMessage({ id: 'form.cancel' })} onClick={this._resetForm} />,
           <RaisedButton
             label={formatMessage({ id: 'form.createFood.submit' })}
             primary
-            type="submit"
+            onClick={this._submitForm}
           />
+        ]}
+      >
+        <form>
+          {formError
+            ? <Error>
+              {formError}
+            </Error>
+            : null}
+
+          {['name', 'brand', 'baseQuantity', 'protein', 'lipids', 'carbohydrates'].map((item, i) =>
+            <TextField
+              key={i}
+              hintText={formatMessage({ id: `form.createFood.${item}.placeholder` })}
+              floatingLabelText={formatMessage({ id: `form.createFood.${item}.label` })}
+              floatingLabelFixed
+              id={item}
+              onChange={this._updateInput}
+              value={food[item].value}
+              errorText={food[item].error}
+            />
+          )}
         </form>
       </Dialog>
     )
   }
 
-  _updateMealName = event => {
-    const { value } = event.target
-    this.setState(state => ({ ...state, mealName: value }))
+  _updateInput = event => {
+    const { id, value } = event.target
+
+    this.setState(state => ({
+      ...state,
+      food: {
+        ...state.food,
+        [id]: {
+          value,
+          error: ''
+        }
+      }
+    }))
   };
 
-  _onSubmit = e => {
-    const { mealName } = this.state
-    const { createFood, toggleDialog } = this.props
+  _resetForm = () => {
+    this.setState(state => ({
+      ...state,
+      food: {
+        name: {},
+        brand: {},
+        baseQuantity: {},
+        kcal: {},
+        protein: {},
+        carbohydrates: {},
+        lipids: {}
+      }
+    }))
+    this.props.toggleDialog()
+  };
 
+  _submitForm = e => {
     e.preventDefault()
 
-    if (mealName) {
-      createFood({ title: mealName }).then(() => toggleDialog())
+    const { food } = this.state
+    const { createNewFood, toggleDialog, intl: { formatMessage } } = this.props
+
+    const fieldsWithError = Object.keys(food).filter(key => !food[key].value)
+
+    if (fieldsWithError.length) {
+      const fieldsWithErrorObject = fieldsWithError.reduce((acc, fieldName) => {
+        acc[fieldName] = { error: formatMessage({ id: 'form.required' }) }
+        return acc
+      }, {})
+
+      this.setState(state => ({
+        ...state,
+        food: {
+          ...state.food,
+          ...fieldsWithErrorObject
+        },
+        formError: formatMessage({ id: 'form.createFood.fillAllFields' })
+      }))
+
+      return false
+    } else {
+      createNewFood(food).then(() => toggleDialog())
     }
   };
 }
 
 const mapDispatchToProps = dispatch => ({
-  createFood: bindActionCreators(createFood, dispatch)
+  createNewFood: bindActionCreators(createNewFood, dispatch)
 })
 
 export const FormCreateFood = injectIntl(connect(null, mapDispatchToProps)(BaseFormCreateFood))

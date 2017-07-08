@@ -4,7 +4,7 @@ const initialState = {
   all: []
 }
 
-export const mealsReducer = (state = initialState, action) => {
+export const foodsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ACTIONS.FOODS.CREATE:
       return {

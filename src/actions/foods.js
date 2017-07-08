@@ -16,7 +16,7 @@ export const createNewFood = (food: Food) => dispatch => {
   )
 }
 
-export const removeMeal = (id: string) => dispatch => {
+export const removeFood = (id: string) => dispatch => {
   return Promise.resolve(
     dispatch({
       type: ACTIONS.FOODS.REMOVE,
