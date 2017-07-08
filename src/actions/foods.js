@@ -2,14 +2,14 @@
 
 import { ACTIONS } from '../constants/'
 
-import type { Meal } from '../components/ui/MealBox'
+import type { Food } from '../components/form/form-create-food'
 
-export const createNewMeal = (meal: Meal) => dispatch => {
+export const createNewFood = (food: Food) => dispatch => {
   return Promise.resolve(
     dispatch({
-      type: ACTIONS.MEALS.CREATE,
+      type: ACTIONS.FOODS.CREATE,
       payload: {
-        ...meal,
+        ...food,
         id: Date.now().toString()
       }
     })
@@ -19,7 +19,7 @@ export const createNewMeal = (meal: Meal) => dispatch => {
 export const removeMeal = (id: string) => dispatch => {
   return Promise.resolve(
     dispatch({
-      type: ACTIONS.MEALS.REMOVE,
+      type: ACTIONS.FOODS.REMOVE,
       payload: {
         id
       }

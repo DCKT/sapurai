@@ -5,22 +5,32 @@ import { connect } from 'react-redux'
 import AppBar from 'material-ui/AppBar'
 import FlatButton from 'material-ui/FlatButton'
 import styled from 'styled-components'
-import { injectIntl } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 
 /**
  * Components
  */
-import { MealBox, type Meal } from '../components/MealBox'
-import { FormCreateMeal } from '../components/forms/form-create-meal'
+import { MealBox, type Meal } from '../components/ui/MealBox'
+import { Menu } from '../components/ui/Menu'
 
 const Container = styled.div`
-  max-width: 1000px;
+  display: flex;
+  justify-content: 'center';
   margin: 20px auto;
 `
 
+const Left = styled.div`
+  width: 25%;
+  margin: auto;
+`
+
+const Right = styled.div`
+  width: 70%;
+  margin: auto;
+`
+
 type Props = {
-  meals: Array<Meal>,
-  intl: Object
+  meals: Array<Meal>
 }
 
 class App extends React.Component {
@@ -31,27 +41,25 @@ class App extends React.Component {
   };
 
   render () {
-    const { meals, intl: { formatMessage } } = this.props
-    const { isDialogVisible } = this.state
+    const { meals } = this.props
 
     return (
       <div>
-        <AppBar
-          title="Sapurai"
-          iconElementRight={<FlatButton label={formatMessage({ id: 'nav.addMeal' })} />}
-          onRightIconButtonTouchTap={this._showDialog}
-        />
-        <FormCreateMeal isDialogVisible={isDialogVisible} toggleDialog={this._toggleModal} />
+        <AppBar title="Sapurai" />
+
         <Container>
-          {meals.map((meal, i) => <MealBox key={i} data={meal} />)}
+          <Left>
+            <Menu />
+          </Left>
+          <Right>
+            {meals.length
+              ? meals.map((meal, i) => <MealBox key={i} data={meal} />)
+              : <FormattedMessage id="home.nomeals" />}
+          </Right>
         </Container>
       </div>
     )
   }
-
-  _showDialog = () => this.setState(state => ({ ...state, isDialogVisible: true }));
-  _toggleModal = () =>
-    this.setState(state => ({ ...state, isDialogVisible: !state.isDialogVisible }));
 }
 
 const mapStateToProps = ({ meals }) => ({

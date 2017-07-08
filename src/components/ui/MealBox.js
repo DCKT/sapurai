@@ -4,15 +4,20 @@ import React from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog'
-import { Card, CardActions, CardTitle } from 'material-ui/Card'
+import { Card as MCard, CardActions, CardTitle } from 'material-ui/Card'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { injectIntl } from 'react-intl'
+import styled from 'styled-components'
 
 /**
  * Actions
  */
-import { removeMeal } from '../actions/meals'
+import { removeMeal } from '../../actions/meals'
+
+const Card = styled(MCard)`
+  margin-bottom: 20px;
+`
 
 export type Food = {
   name: string,
@@ -53,13 +58,9 @@ class BaseMealBox extends React.Component {
           open={isDialogVisible}
           onRequestClose={this._toggleDialog}
           actions={[
-            <FlatButton
-              primary
-              label={formatMessage({ id: 'dialog.no' })}
-              onClick={this._toggleDialog}
-            />,
-            <FlatButton
-              primary
+            <FlatButton label={formatMessage({ id: 'dialog.no' })} onClick={this._toggleDialog} />,
+            <RaisedButton
+              secondary
               label={formatMessage({ id: 'dialog.yes' })}
               onClick={this._removeMeal(id)}
             />
