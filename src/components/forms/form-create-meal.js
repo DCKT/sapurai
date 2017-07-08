@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
+import { injectIntl } from 'react-intl'
 
 /**
  * Actions
@@ -15,7 +16,8 @@ import { createNewMeal } from '../../actions/meals'
 type Props = {
   createNewMeal: () => Promise<*>,
   toggleDialog: () => void,
-  isDialogVisible: boolean
+  isDialogVisible: boolean,
+  intl: Object
 }
 
 class BaseFormCreateMeal extends React.Component {
@@ -26,22 +28,26 @@ class BaseFormCreateMeal extends React.Component {
   };
 
   render () {
-    const { toggleDialog, isDialogVisible } = this.props
+    const { toggleDialog, isDialogVisible, intl: { formatMessage } } = this.props
 
     return (
       <Dialog
-        title="Create a new meal"
+        title={formatMessage({ id: 'form.createMeal.title' })}
         modal={false}
         open={isDialogVisible}
         onRequestClose={toggleDialog}
       >
         <form onSubmit={this._onSubmit}>
           <TextField
-            hintText="Meal name"
+            hintText={formatMessage({ id: 'form.createMeal.input.placeholder' })}
             onChange={this._updateMealName}
             value={this.state.mealName}
           />
-          <RaisedButton label="Add" primary type="submit" />
+          <RaisedButton
+            label={formatMessage({ id: 'form.createMeal.submit' })}
+            primary
+            type="submit"
+          />
         </form>
       </Dialog>
     )
@@ -58,8 +64,6 @@ class BaseFormCreateMeal extends React.Component {
 
     e.preventDefault()
 
-    console.log(mealName)
-
     if (mealName) {
       createNewMeal({ title: mealName }).then(() => toggleDialog())
     }
@@ -70,4 +74,4 @@ const mapDispatchToProps = dispatch => ({
   createNewMeal: bindActionCreators(createNewMeal, dispatch)
 })
 
-export const FormCreateMeal = connect(null, mapDispatchToProps)(BaseFormCreateMeal)
+export const FormCreateMeal = injectIntl(connect(null, mapDispatchToProps)(BaseFormCreateMeal))

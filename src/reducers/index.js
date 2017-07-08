@@ -1,5 +1,6 @@
 import { applyMiddleware, createStore, combineReducers, compose } from 'redux'
 import thunk from 'redux-thunk'
+import persistState from 'redux-localstorage'
 
 /**
  * Reducers
@@ -11,5 +12,5 @@ const reducers = combineReducers({
   meals: mealsReducer
 })
 
-const store = createStore(reducers, composeEnhancers(applyMiddleware(...[thunk])))
+const store = createStore(reducers, composeEnhancers(applyMiddleware(...[thunk]), persistState()))
 export default store

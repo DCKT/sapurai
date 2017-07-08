@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import AppBar from 'material-ui/AppBar'
 import FlatButton from 'material-ui/FlatButton'
 import styled from 'styled-components'
+import { injectIntl } from 'react-intl'
 
 /**
  * Components
@@ -18,7 +19,8 @@ const Container = styled.div`
 `
 
 type Props = {
-  meals: Array<Meal>
+  meals: Array<Meal>,
+  intl: Object
 }
 
 class App extends React.Component {
@@ -29,14 +31,14 @@ class App extends React.Component {
   };
 
   render () {
-    const { meals } = this.props
+    const { meals, intl: { formatMessage } } = this.props
     const { isDialogVisible } = this.state
 
     return (
       <div>
         <AppBar
           title="Sapurai"
-          iconElementRight={<FlatButton label="Add a new meal" />}
+          iconElementRight={<FlatButton label={formatMessage({ id: 'nav.addMeal' })} />}
           onRightIconButtonTouchTap={this._showDialog}
         />
         <FormCreateMeal isDialogVisible={isDialogVisible} toggleDialog={this._toggleModal} />
@@ -56,4 +58,4 @@ const mapStateToProps = ({ meals }) => ({
   meals: meals.all
 })
 
-export default connect(mapStateToProps)(App)
+export default injectIntl(connect(mapStateToProps)(App))

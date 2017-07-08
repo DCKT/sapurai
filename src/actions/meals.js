@@ -10,7 +10,18 @@ export const createNewMeal = (meal: Meal) => dispatch => {
       type: ACTIONS.MEALS.CREATE,
       payload: {
         ...meal,
-        id: Date.now()
+        id: Date.now().toString()
+      }
+    })
+  )
+}
+
+export const removeMeal = (id: string) => dispatch => {
+  return Promise.resolve(
+    dispatch({
+      type: ACTIONS.MEALS.REMOVE,
+      payload: {
+        id
       }
     })
   )
