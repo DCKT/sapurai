@@ -1,7 +1,9 @@
 // @flow
 
+/**
+ * Utils
+ */
 import { ACTIONS } from '../constants/'
-
 import type { Food } from '../components/form/form-create-food'
 
 export const createNewFood = (food: Food) => dispatch => {

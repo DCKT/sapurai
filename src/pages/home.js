@@ -3,7 +3,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import AppBar from 'material-ui/AppBar'
-import FlatButton from 'material-ui/FlatButton'
 import styled from 'styled-components'
 import { injectIntl, FormattedMessage } from 'react-intl'
 
@@ -12,6 +11,7 @@ import { injectIntl, FormattedMessage } from 'react-intl'
  */
 import { MealBox, type Meal } from '../components/ui/MealBox'
 import { Menu } from '../components/ui/Menu'
+import { Notification } from '../components/ui/Notification'
 
 const Container = styled.div`
   display: flex;
@@ -57,6 +57,7 @@ class App extends React.Component {
               : <FormattedMessage id="home.nomeals" />}
           </Right>
         </Container>
+        <Notification />
       </div>
     )
   }

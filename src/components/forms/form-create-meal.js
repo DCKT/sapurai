@@ -12,10 +12,12 @@ import { injectIntl } from 'react-intl'
  * Actions
  */
 import { createNewMeal } from '../../actions/meals'
+import { createNotification } from '../../actions/notifications'
 
 type Props = {
   createNewMeal: () => Promise<*>,
   toggleDialog: () => void,
+  createNotification: () => Promise<*>,
   isDialogVisible: boolean,
   intl: Object
 }
@@ -60,18 +62,26 @@ class BaseFormCreateMeal extends React.Component {
 
   _onSubmit = e => {
     const { mealName } = this.state
-    const { createNewMeal, toggleDialog } = this.props
+    const { createNewMeal, createNotification, toggleDialog, intl: { formatMessage } } = this.props
 
     e.preventDefault()
 
     if (mealName) {
-      createNewMeal({ title: mealName }).then(() => toggleDialog())
+      createNewMeal({ title: mealName }).then(() => {
+        this.setState(state => ({
+          ...state,
+          mealName: ''
+        }))
+        createNotification(formatMessage({ id: 'form.createMeal.successMessage' }))
+        toggleDialog()
+      })
     }
   };
 }
 
 const mapDispatchToProps = dispatch => ({
-  createNewMeal: bindActionCreators(createNewMeal, dispatch)
+  createNewMeal: bindActionCreators(createNewMeal, dispatch),
+  createNotification: bindActionCreators(createNotification, dispatch)
 })
 
 export const FormCreateMeal = injectIntl(connect(null, mapDispatchToProps)(BaseFormCreateMeal))

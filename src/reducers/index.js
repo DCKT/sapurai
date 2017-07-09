@@ -7,11 +7,13 @@ import persistState from 'redux-localstorage'
  */
 import { mealsReducer } from './meals'
 import { foodsReducer } from './foods'
+import { notificationsReducer } from './notifications'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const reducers = combineReducers({
   meals: mealsReducer,
-  foods: foodsReducer
+  foods: foodsReducer,
+  notifications: notificationsReducer
 })
 
 const store = createStore(reducers, composeEnhancers(applyMiddleware(...[thunk]), persistState()))

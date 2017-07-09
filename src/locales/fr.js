@@ -21,5 +21,6 @@ export const fr = {
   'misc.meal': 'Repas',
   'misc.product': 'Produit',
   'form.createFood.fillAllFields': 'Veuillez remplir tous les champs',
-  'foodsList.title': 'Liste des produits'
+  'foodsList.title': 'Liste des produits',
+  'form.createMeal.successMessage': 'Repas ajouté avec succès'
 }
