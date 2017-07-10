@@ -15,6 +15,11 @@ import styled from 'styled-components'
  */
 import { removeMeal } from '../../actions/meals'
 
+/**
+ * Components
+ */
+import { FormAddFood } from '../forms/form-add-food'
+
 const Card = styled(MCard)`
   margin-bottom: 20px;
 `
@@ -40,11 +45,12 @@ class BaseMealBox extends React.Component {
   props: Props;
 
   state = {
-    isDialogVisible: false
+    isDialogVisible: false,
+    isFormAddFoodDialogVisible: false
   };
 
   render () {
-    const { isDialogVisible } = this.state
+    const { isDialogVisible, isFormAddFoodDialogVisible } = this.state
     const { data, intl: { formatMessage } } = this.props
     const { title, foods, id } = data
 
@@ -67,9 +73,11 @@ class BaseMealBox extends React.Component {
           ]}
         />
 
+        <FormAddFood mealId={id} isDialogVisible={isFormAddFoodDialogVisible} />
+
         <CardActions>
           <FlatButton secondary label="Remove meal" onClick={this._toggleDialog} />
-          <RaisedButton primary label="Add food" />
+          <RaisedButton primary label="Add food" onClick={this._toggleFormAddFoodVisible} />
         </CardActions>
       </Card>
     )
@@ -77,6 +85,13 @@ class BaseMealBox extends React.Component {
 
   _toggleDialog = () => {
     this.setState(state => ({ ...state, isDialogVisible: !state.isDialogVisible }))
+  };
+
+  _toggleFormAddFoodVisible = () => {
+    this.setState(state => ({
+      ...state,
+      isFormAddFoodDialogVisible: !state.isFormAddFoodDialogVisible
+    }))
   };
 
   _removeMeal = (id: string) => () => {

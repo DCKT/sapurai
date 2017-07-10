@@ -26,3 +26,15 @@ export const removeMeal = (id: string) => dispatch => {
     })
   )
 }
+
+export const attachFoodToMeal = (mealId: string, foods: Array<Food>) => dispatch => {
+  return Promise.resolve(
+    dispatch({
+      type: ACTIONS.MEALS.ATTACH_FOOD,
+      payload: {
+        mealId,
+        foods
+      }
+    })
+  )
+}

@@ -16,6 +16,20 @@ export const mealsReducer = (state = initialState, action) => {
         ...state,
         all: state.all.filter(meal => meal.id !== action.payload.id)
       }
+    case ACTIONS.MEALS.ATTACH_FOOD:
+      return {
+        ...state,
+        all: state.all.map(meal => {
+          if (meal.id === action.payload.mealId) {
+            return {
+              ...meal,
+              foods: action.payload.foods
+            }
+          } else {
+            return meal
+          }
+        })
+      }
     default:
       return state
   }

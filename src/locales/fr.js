@@ -22,5 +22,9 @@ export const fr = {
   'misc.product': 'Produit',
   'form.createFood.fillAllFields': 'Veuillez remplir tous les champs',
   'foodsList.title': 'Liste des produits',
-  'form.createMeal.successMessage': 'Repas ajouté avec succès'
+  'form.createMeal.successMessage': 'Repas ajouté avec succès',
+  'form.addFood.title': 'Ajouter un aliment au repas',
+  'form.addFood.search': 'Rechercher un aliment',
+  'form.addFood.search.placeholder': 'Pomme',
+  'form.addFood.success': 'Les aliments ont été ajouté au repas'
 }
