@@ -23,7 +23,7 @@ export const mealsReducer = (state = initialState, action) => {
           if (meal.id === action.payload.mealId) {
             return {
               ...meal,
-              foods: action.payload.foods
+              foods: meal.foods.concat(action.payload.foods)
             }
           } else {
             return meal

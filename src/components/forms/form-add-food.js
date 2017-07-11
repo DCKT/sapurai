@@ -30,19 +30,14 @@ const Container = styled.div`
   margin: 10px;
 `
 
-const Left = styled.div`width: 300px;`
-
-const Right = styled.div`
-  width: 60%;
-  margin-left: 10%;
-`
-
 type Props = {
   mealId: string,
   isDialogVisible: boolean,
   intl: Object,
   foods: Array<*>,
-  attachFoodToMeal: Function
+  attachFoodToMeal: Function,
+  createNotification: Function,
+  closeDialog: Function
 }
 
 class BaseFormAddFood extends React.Component {
@@ -91,9 +86,12 @@ class BaseFormAddFood extends React.Component {
                 <TableHeaderColumn>Status</TableHeaderColumn>
               </TableRow>
             </TableHeader>
-            <TableBody displayRowCheckbox>
+            <TableBody displayRowCheckbox deselectOnClickaway={false}>
               {foods.filter(food => food.name.toLowerCase().includes(filter)).map((food, i) =>
-                <TableRow key={i}>
+                <TableRow
+                  key={i}
+                  selected={!!this.state.selectedFoods.filter(sfood => sfood.id === food.id).length}
+                >
                   <TableRowColumn>
                     {i}
                   </TableRowColumn>
@@ -112,22 +110,29 @@ class BaseFormAddFood extends React.Component {
     )
   }
 
+  _resetForm = () => {
+    this.setState(state => ({
+      selectedFoods: [],
+      filter: ''
+    }))
+
+    this.props.closeDialog()
+  };
+
   _onRowSelection = selectedRows => {
-    console.log(selectedRows)
-    // this.setState(state => ({
-    //   ...state,
-    //   selectedFoods: selectedRows
-    // }))
+    this.setState((state, props) => ({
+      ...state,
+      selectedFoods: selectedRows.map(id => props.foods[id])
+    }))
   };
 
   _submitForm = () => {
-    const { attachFoodToMeal, mealId } = this.props
-    const { selectedFoods, createNotification, intl: { formatMessage } } = this.state
+    const { attachFoodToMeal, createNotification, mealId, intl: { formatMessage } } = this.props
+    const { selectedFoods } = this.state
 
-    attachFoodToMeal(
-      mealId,
-      this.props.foods.filter(food => selectedFoods.includes(food.id))
-    ).then(() => createNotification(formatMessage({ id: 'form.addFood.success' })))
+    attachFoodToMeal(mealId, selectedFoods)
+      .then(() => createNotification(formatMessage({ id: 'form.addFood.success' })))
+      .then(() => this._resetForm())
   };
 }
 

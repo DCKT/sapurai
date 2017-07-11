@@ -10,6 +10,7 @@ export const createNewMeal = (meal: Meal) => dispatch => {
       type: ACTIONS.MEALS.CREATE,
       payload: {
         ...meal,
+        foods: [],
         id: Date.now().toString()
       }
     })
