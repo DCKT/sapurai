@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import AppBar from 'material-ui/AppBar'
 import styled from 'styled-components'
 import { injectIntl, FormattedMessage } from 'react-intl'
 
@@ -45,8 +44,6 @@ class App extends React.Component {
 
     return (
       <div>
-        <AppBar title="Sapurai" />
-
         <Container>
           <Left>
             <Menu />

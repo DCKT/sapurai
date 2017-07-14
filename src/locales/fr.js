@@ -26,5 +26,6 @@ export const fr = {
   'form.addFood.title': 'Ajouter un aliment au repas',
   'form.addFood.search': 'Rechercher un aliment',
   'form.addFood.search.placeholder': 'Pomme',
-  'form.addFood.success': 'Les aliments ont été ajouté au repas'
+  'form.addFood.success': 'Les aliments ont été ajouté au repas',
+  'login.form.signin': 'Se connecter avec Google'
 }
