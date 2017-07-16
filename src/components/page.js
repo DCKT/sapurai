@@ -17,6 +17,7 @@ import Divider from 'material-ui/Divider'
  */
 import Home from '../pages/home'
 import { Login } from '../pages/login'
+import { Register } from '../pages/register'
 
 /**
  * Actions
@@ -32,7 +33,7 @@ export const Route = connect(({ cognito, session }) => ({
     return <Redirect to="/login" />
   }
 
-  if (window.location.pathname === '/login' && user) {
+  if (['/login', '/register'].includes(window.location.pathname) && user) {
     return <Redirect to="/" />
   }
 
@@ -83,6 +84,7 @@ class BasePageContainer extends React.Component {
         <Switch>
           {/* Public */}
           <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
 
           {/* Private */}
           <Route path="/" component={Home} exact isPrivate />
