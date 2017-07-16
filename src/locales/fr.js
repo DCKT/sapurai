@@ -36,11 +36,23 @@ export const fr = {
   'page.register.form.email.label': 'E-mail',
   'page.register.form.password.label': 'Mot de passe',
   'page.register.form.submit': 'Je m\'inscris',
-  'page.register.alreadyRegistered': 'Déjà inscris ? Connectez-vous',
+  'page.register.alreadyRegistered': 'Déjà inscrit ? Connectez-vous',
   'page.register.form.error.invalidEmail': 'E-mail non valide',
   'page.register.form.error.userNotFound': 'Ce compte n\'existe pas',
   'page.register.form.error.invalidPassword': 'Mot de passe invalide',
   'page.register.form.error.weakPassword':
     'Votre mot de passe doit contenir au moins 6 caractères et 1 chiffre',
-  'page.register.form.error.emailUsed': 'Cette adresse est déjà utilisée'
+  'page.register.form.error.emailUsed': 'Cette adresse est déjà utilisée',
+
+  /**
+   * Login
+   */
+  'page.login.title': 'Connexion',
+  'page.login.form.email.label': 'E-mail',
+  'page.login.form.password.label': 'Mot de passe',
+  'page.login.form.submit': 'Connexion',
+  'page.login.register': 'Pas encore inscrit ? Inscrivez-vous ici',
+  'page.login.facebookConnect': 'Se connecter via Facebook',
+  'page.login.twitterConnect': 'Se connecter via Twitter',
+  'page.login.googleConnect': 'Se connecter via Google'
 }

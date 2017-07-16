@@ -47,7 +47,7 @@ const FormSectionRight = styled(FormSection)`
 
 const FormDivider = styled.div`
   width: 1px;
-  height: 180px;
+  height: 210px;
   background: #eee;
   margin: 0 2%;
 `
@@ -66,6 +66,15 @@ const TitleRightLink = styled(Link)`
   position: absolute;
   right: 0;
   font-size: 14px;
+  max-width: 150px;
+  text-align: right;
+  color: #03A9F4;
+  line-height: 16px;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 const buttonStyle = {
@@ -80,20 +89,17 @@ type Props = {
 class BaseLogin extends React.Component {
   props: Props;
 
-  state = {
-    error: false
-  };
-
   render () {
     const { intl: { formatMessage } } = this.props
-    const { error } = this.state
 
     return (
       <Container>
         <Form>
           <Title>
-            Login
-            <TitleRightLink to="/register">Not registered yet ? Signup</TitleRightLink>
+            {formatMessage({ id: 'page.login.title' })}
+            <TitleRightLink to="/register">
+              {formatMessage({ id: 'page.login.register' })}
+            </TitleRightLink>
           </Title>
           <FormSection>
             <FormLogin />
@@ -101,7 +107,7 @@ class BaseLogin extends React.Component {
           <FormDivider />
           <FormSectionRight>
             <RaisedButton
-              label="Login with Google"
+              label={formatMessage({ id: 'page.login.googleConnect' })}
               icon={<FontIcon className="socicon-googleplus" />}
               backgroundColor="#F44336"
               labelColor="#fff"
@@ -110,7 +116,7 @@ class BaseLogin extends React.Component {
             />
 
             <RaisedButton
-              label="Login with Twitter"
+              label={formatMessage({ id: 'page.login.twitterConnect' })}
               icon={<FontIcon className="socicon-twitter" />}
               backgroundColor="#1da1f2"
               labelColor="#fff"
@@ -119,7 +125,7 @@ class BaseLogin extends React.Component {
             />
 
             <RaisedButton
-              label="Login with Facebook"
+              label={formatMessage({ id: 'page.login.facebookConnect' })}
               icon={<FontIcon className="socicon-facebook" />}
               backgroundColor="#365899"
               labelColor="#fff"
@@ -127,7 +133,6 @@ class BaseLogin extends React.Component {
               style={{ width: '100%' }}
             />
           </FormSectionRight>
-          {error ? <p>An error occured</p> : null}
         </Form>
       </Container>
     )

@@ -42,6 +42,15 @@ const TitleRightLink = styled(Link)`
   position: absolute;
   right: 0;
   font-size: 14px;
+  max-width: 150px;
+  text-align: right;
+  color: #03A9F4;
+  line-height: 16px;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 type Props = {

@@ -7,19 +7,24 @@ import { injectIntl } from 'react-intl'
 import firebase from 'firebase'
 
 class BaseFormLogin extends React.Component {
+  props: {
+    intl: Object
+  };
+
   state = {
     email: { value: '' },
     password: { value: '' }
   };
 
   render () {
+    const { intl: { formatMessage } } = this.props
     const { email, password } = this.state
 
     return (
       <form onSubmit={this._onSubmit}>
         <TextField
           id="email"
-          floatingLabelText="Email"
+          floatingLabelText={formatMessage({ id: 'page.login.form.email.label' })}
           onChange={this._updateInput}
           errorText={email.error}
           required
@@ -27,7 +32,7 @@ class BaseFormLogin extends React.Component {
         />
         <TextField
           id="password"
-          floatingLabelText="password"
+          floatingLabelText={formatMessage({ id: 'page.login.form.password.label' })}
           type="password"
           errorText={password.error}
           onChange={this._updateInput}
@@ -35,7 +40,13 @@ class BaseFormLogin extends React.Component {
           fullWidth
         />
         <br />
-        <RaisedButton primary label="Sign in" type="submit" fullWidth />
+        <br />
+        <RaisedButton
+          primary
+          label={formatMessage({ id: 'page.login.form.submit' })}
+          type="submit"
+          fullWidth
+        />
       </form>
     )
   }
@@ -52,6 +63,7 @@ class BaseFormLogin extends React.Component {
   };
 
   _onSubmit = () => {
+    const { intl: { formatMessage } } = this.props
     const { email, password } = this.state
 
     firebase.auth().signInWithEmailAndPassword(email.value, password.value).catch(({ code }) => {
@@ -60,17 +72,17 @@ class BaseFormLogin extends React.Component {
       if (code === 'auth/invalid-email') {
         error = {
           input: 'email',
-          message: 'email invalid'
+          message: formatMessage({ id: 'page.register.form.error.invalidEmail' })
         }
       } else if (code === 'auth/user-not-found') {
         error = {
           input: 'email',
-          message: 'user not found'
+          message: formatMessage({ id: 'page.register.form.error.userNotFound' })
         }
       } else if (code === 'auth/wrong-password') {
         error = {
           input: 'password',
-          message: 'wrong password'
+          message: formatMessage({ id: 'page.register.form.error.wrongPassword' })
         }
       }
 
