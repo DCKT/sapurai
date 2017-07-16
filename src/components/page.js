@@ -4,6 +4,11 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Route as BaseRoute, Redirect, Switch, withRouter } from 'react-router-dom'
+import styled from 'styled-components'
+
+/**
+ * Material components
+ */
 import AppBar from 'material-ui/AppBar'
 import Drawer from 'material-ui/Drawer'
 import IconButton from 'material-ui/IconButton'
@@ -11,7 +16,7 @@ import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import Divider from 'material-ui/Divider'
-
+import { Menu } from './ui/Menu'
 /**
  * Pages
  */
@@ -23,6 +28,21 @@ import { Register } from '../pages/register'
  * Actions
  */
 import { logout } from '../actions/session'
+
+/**
+ * Utils
+ */
+import { isMobileOrTablet, breakpoint } from '../utils/responsive'
+
+const Application = styled.div`
+  padding-left: 256px;
+
+  @media screen and (max-width: ${breakpoint.tablet}px) {
+    padding-left: 0;
+  }
+`
+
+const Content = styled.div`padding: 10px 20px;`
 
 export const Route = connect(({ cognito, session }) => ({
   user: session.user
@@ -51,11 +71,15 @@ class BasePageContainer extends React.Component {
   };
 
   render () {
+    const { isDrawerOpen } = this.state
+
     return (
-      <div>
+      <Application>
         <AppBar
-          title="Sapurai"
+          title={isMobileOrTablet() ? 'Sapurai' : ''}
           onLeftIconButtonTouchTap={this._openDrawer}
+          showMenuIconButton={isMobileOrTablet()}
+          style={{ background: '#42A5F5' }}
           iconElementRight={
             this.props.user
               ? <IconMenu
@@ -75,21 +99,24 @@ class BasePageContainer extends React.Component {
           }
         />
         <Drawer
-          docked={false}
-          width={300}
-          open={this.state.isDrawerOpen}
+          docked={!isMobileOrTablet()}
+          width={256}
+          open={isMobileOrTablet() ? isDrawerOpen : true}
           onRequestChange={isDrawerOpen => this.setState(state => ({ ...state, isDrawerOpen }))}
-        />
+        >
+          <Menu />
+        </Drawer>
+        <Content>
+          <Switch>
+            {/* Public */}
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
 
-        <Switch>
-          {/* Public */}
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-
-          {/* Private */}
-          <Route path="/" component={Home} exact isPrivate />
-        </Switch>
-      </div>
+            {/* Private */}
+            <Route path="/" component={Home} exact isPrivate />
+          </Switch>
+        </Content>
+      </Application>
     )
   }
 

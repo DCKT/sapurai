@@ -9,23 +9,12 @@ import { injectIntl, FormattedMessage } from 'react-intl'
  * Components
  */
 import { MealBox, type Meal } from '../components/ui/MealBox'
-import { Menu } from '../components/ui/Menu'
 import { Notification } from '../components/ui/Notification'
 
 const Container = styled.div`
   display: flex;
   justify-content: 'center';
   margin: 20px auto;
-`
-
-const Left = styled.div`
-  width: 25%;
-  margin: auto;
-`
-
-const Right = styled.div`
-  width: 70%;
-  margin: auto;
 `
 
 type Props = {
@@ -35,24 +24,15 @@ type Props = {
 class App extends React.Component {
   props: Props;
 
-  state = {
-    isDialogVisible: false
-  };
-
   render () {
     const { meals } = this.props
 
     return (
       <div>
         <Container>
-          <Left>
-            <Menu />
-          </Left>
-          <Right>
-            {meals.length
-              ? meals.map((meal, i) => <MealBox key={i} data={meal} />)
-              : <FormattedMessage id="home.nomeals" />}
-          </Right>
+          {meals.length
+            ? meals.map((meal, i) => <MealBox key={i} data={meal} />)
+            : <FormattedMessage id="home.nomeals" />}
         </Container>
         <Notification />
       </div>

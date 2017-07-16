@@ -1,13 +1,12 @@
 // @flow
 
 import React from 'react'
-import Paper from 'material-ui/Paper'
-import RMenu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
 import Divider from 'material-ui/Divider'
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
 import ListIcon from 'material-ui/svg-icons/action/list'
 import { injectIntl } from 'react-intl'
+import styled from 'styled-components'
 
 /**
  * Components
@@ -16,10 +15,17 @@ import { FormCreateMeal } from '../forms/form-create-meal'
 import { FormCreateFood } from '../forms/form-create-food'
 import { FoodsList } from './FoodsList'
 
-const style = {
-  display: 'inline-block',
-  margin: '16px 32px 16px 0'
-}
+const MiniHeader = styled.div`
+  background: #42a5f5;
+  height: 64px;
+  line-height: 64px;
+  padding: 0 15px;
+`
+
+const MiniHeaderTitle = styled.h1`
+  color: white;
+  font-size: 24px;
+`
 
 type Props = {
   intl: Object
@@ -38,30 +44,31 @@ class BaseMenu extends React.Component {
     const { intl: { formatMessage } } = this.props
 
     return (
-      <Paper style={style}>
-        <RMenu desktop width={320}>
-          <MenuItem
-            primaryText="Ajouter"
-            rightIcon={<ArrowDropRight />}
-            menuItems={[
-              <MenuItem
-                primaryText={formatMessage({ id: 'misc.meal' })}
-                onTouchTap={this._toggleMealDialog}
-              />,
-              <Divider />,
-              <MenuItem
-                primaryText={formatMessage({ id: 'misc.product' })}
-                onTouchTap={this._toggleProductDialog}
-              />
-            ]}
-          />
-          <Divider />
-          <MenuItem
-            primaryText="Voir la liste des produits"
-            rightIcon={<ListIcon />}
-            onTouchTap={this._toggleFoodsListDialog}
-          />
-        </RMenu>
+      <div>
+        <MiniHeader>
+          <MiniHeaderTitle>Sapurai</MiniHeaderTitle>
+        </MiniHeader>
+        <MenuItem
+          primaryText="Ajouter"
+          rightIcon={<ArrowDropRight />}
+          menuItems={[
+            <MenuItem
+              primaryText={formatMessage({ id: 'misc.meal' })}
+              onTouchTap={this._toggleMealDialog}
+            />,
+            <Divider />,
+            <MenuItem
+              primaryText={formatMessage({ id: 'misc.product' })}
+              onTouchTap={this._toggleProductDialog}
+            />
+          ]}
+        />
+        <Divider />
+        <MenuItem
+          primaryText="Voir la liste des produits"
+          rightIcon={<ListIcon />}
+          onTouchTap={this._toggleFoodsListDialog}
+        />
         <FormCreateMeal
           isDialogVisible={isMealDialogVisible}
           toggleDialog={this._toggleMealDialog}
@@ -74,7 +81,7 @@ class BaseMenu extends React.Component {
           isDialogVisible={isFoodsListDialogVisible}
           toggleDialog={this._toggleFoodsListDialog}
         />
-      </Paper>
+      </div>
     )
   }
   _toggleMealDialog = () =>
