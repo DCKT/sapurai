@@ -35,7 +35,7 @@ import { logout } from '../actions/session'
 import { isMobileOrTablet, breakpoint } from '../utils/responsive'
 
 const Application = styled.div`
-  padding-left: 256px;
+  padding-left: ${props => (props.isPrivate ? '256px' : '0px')};
 
   @media screen and (max-width: ${breakpoint.tablet}px) {
     padding-left: 0;
@@ -71,17 +71,19 @@ class BasePageContainer extends React.Component {
   };
 
   render () {
+    const { user, logout } = this.props
     const { isDrawerOpen } = this.state
+    const appTitle = isMobileOrTablet() || !user ? 'Sapurai' : ''
 
     return (
-      <Application>
+      <Application isPrivate={user}>
         <AppBar
-          title={isMobileOrTablet() ? 'Sapurai' : ''}
+          title={appTitle}
           onLeftIconButtonTouchTap={this._openDrawer}
           showMenuIconButton={isMobileOrTablet()}
           style={{ background: '#42A5F5' }}
           iconElementRight={
-            this.props.user
+            user
               ? <IconMenu
                 iconButtonElement={
                   <IconButton>
@@ -93,19 +95,21 @@ class BasePageContainer extends React.Component {
                 >
                 <MenuItem primaryText="Help" />
                 <Divider />
-                <MenuItem primaryText="Sign out" onClick={this.props.logout} />
+                <MenuItem primaryText="Sign out" onClick={logout} />
               </IconMenu>
               : null
           }
         />
-        <Drawer
-          docked={!isMobileOrTablet()}
-          width={256}
-          open={isMobileOrTablet() ? isDrawerOpen : true}
-          onRequestChange={isDrawerOpen => this.setState(state => ({ ...state, isDrawerOpen }))}
-        >
-          <Menu />
-        </Drawer>
+        {user
+          ? <Drawer
+            docked={!isMobileOrTablet()}
+            width={256}
+            open={isMobileOrTablet() ? isDrawerOpen : true}
+            onRequestChange={isDrawerOpen => this.setState(state => ({ ...state, isDrawerOpen }))}
+            >
+            <Menu />
+          </Drawer>
+          : null}
         <Content>
           <Switch>
             {/* Public */}
