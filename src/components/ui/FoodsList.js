@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Dialog from 'material-ui/Dialog'
 import { injectIntl } from 'react-intl'
-import FlatButton from 'material-ui/FlatButton'
 
 /**
  * Components
@@ -41,7 +40,6 @@ class BaseFoodsList extends React.Component {
         {foods.map((food, i) =>
           <div key={i}>
             {food.name}
-            <FlatButton label="remove" onClick={this._removeFood(food.id)} />
           </div>
         )}
       </Dialog>

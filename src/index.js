@@ -20,6 +20,8 @@ import { app } from './utils/firebase'
  * Actions
  */
 import { setUser } from './actions/session'
+import { updateFoodsList } from './actions/foods'
+import { updateMealsList, addMealToList, removeMealFromList } from './actions/meals'
 
 const language = getLanguage()
 const messages = getMessages(language)
@@ -45,10 +47,41 @@ const render = () =>
 
 registerServiceWorker()
 
+let mealsListener = null
+
 app.auth().onAuthStateChanged(user => {
   if (user) {
+    const { uid } = user
+
+    if (!mealsListener) {
+      mealsListener = app.database().ref(`meals/${uid}`)
+    }
+
+    mealsListener.on('value', snapshot => {
+      const meals = snapshot.val()
+
+      if (meals) {
+        store.dispatch(updateMealsList(Object.keys(meals).map(meal => meals[meal])))
+      }
+    })
+
+    mealsListener.on('child_added', data => {
+      store.dispatch(addMealToList(data.val()))
+    })
+
+    mealsListener.on('child_removed', data => {
+      store.dispatch(removeMealFromList(data.val().id))
+    })
+
     store.dispatch(setUser(user)).then(render)
   } else {
     render()
   }
+})
+
+app.database().ref('foods').on('value', snapshot => {
+  const list = snapshot.val()
+  const foods = Object.keys(list).map(food => list[food])
+
+  store.dispatch(updateFoodsList(foods))
 })

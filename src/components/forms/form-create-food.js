@@ -168,7 +168,18 @@ class BaseFormCreateFood extends React.Component {
       return false
     } else {
       const data = mapValues(food, t => t.value)
-      createNewFood(data).then(() => toggleDialog())
+      createNewFood(data).then(() => toggleDialog()).catch(err => {
+        let errorMessage = formatMessage({ id: 'form.defaultError' })
+
+        if (err.message.includes('exist')) {
+          errorMessage = formatMessage({ id: 'form.createFood.exist' })
+        }
+
+        this.setState(state => ({
+          ...state,
+          formError: errorMessage
+        }))
+      })
     }
   };
 }

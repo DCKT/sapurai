@@ -16,6 +16,11 @@ export const foodsReducer = (state = initialState, action) => {
         ...state,
         all: state.all.filter(food => food.id !== action.payload.id)
       }
+    case ACTIONS.FOODS.UPDATE_LIST:
+      return {
+        ...state,
+        all: action.payload
+      }
     default:
       return state
   }

@@ -3,6 +3,7 @@ export const fr = {
   'dialog.yes': 'Oui',
   'dialog.no': 'Non',
   'home.nomeals': 'Vous n\'avez crée aucun repas.',
+  'form.defaultError': 'Une erreur est survenue, veuillez nous en excuser.',
   'form.createMeal.title': 'Ajouter un nouveau repas',
   'form.createMeal.input.placeholder': 'Nom du repas',
   'form.createMeal.submit': 'Ajouter',
@@ -54,5 +55,10 @@ export const fr = {
   'page.login.register': 'Pas encore inscrit ? Inscrivez-vous ici',
   'page.login.facebookConnect': 'Se connecter via Facebook',
   'page.login.twitterConnect': 'Se connecter via Twitter',
-  'page.login.googleConnect': 'Se connecter via Google'
+  'page.login.googleConnect': 'Se connecter via Google',
+
+  /**
+   * Form create food
+   */
+  'form.createFood.exist': 'Ce produit existe déjà en base de donnée.'
 }

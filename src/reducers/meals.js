@@ -6,12 +6,12 @@ const initialState = {
 
 export const mealsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ACTIONS.MEALS.CREATE:
+    case ACTIONS.MEALS.ADD:
       return {
         ...state,
         all: [...state.all, action.payload]
       }
-    case ACTIONS.MEALS.REMOVE:
+    case ACTIONS.MEALS.REMOVE_LIST:
       return {
         ...state,
         all: state.all.filter(meal => meal.id !== action.payload.id)
