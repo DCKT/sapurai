@@ -16,20 +16,26 @@ export const mealsReducer = (state = initialState, action) => {
         ...state,
         all: state.all.filter(meal => meal.id !== action.payload.id)
       }
-    case ACTIONS.MEALS.ATTACH_FOOD:
+
+    case ACTIONS.MEALS.UPDATE_LIST:
       return {
         ...state,
-        all: state.all.map(meal => {
-          if (meal.id === action.payload.mealId) {
-            return {
-              ...meal,
-              foods: meal.foods.concat(action.payload.foods)
-            }
-          } else {
-            return meal
-          }
-        })
+        all: action.payload
       }
+    // case ACTIONS.MEALS.ATTACH_FOOD:
+    //   return {
+    //     ...state,
+    //     all: state.all.map(meal => {
+    //       if (meal.id === action.payload.mealId) {
+    //         return {
+    //           ...meal,
+    //           foods: meal.foods.concat(action.payload.foods)
+    //         }
+    //       } else {
+    //         return meal
+    //       }
+    //     })
+    //   }
     default:
       return state
   }

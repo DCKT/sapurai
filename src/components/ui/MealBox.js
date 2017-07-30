@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { injectIntl } from 'react-intl'
 import styled from 'styled-components'
+import { map } from 'lodash'
 
 /**
  * Actions
@@ -60,7 +61,7 @@ class BaseMealBox extends React.Component {
 
         <CardText>
           {foods &&
-            foods.map((food, i) =>
+            map(foods, (food, i) =>
               <div key={i}>
                 {food.name}
               </div>

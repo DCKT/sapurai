@@ -11,11 +11,7 @@ import { injectIntl, FormattedMessage } from 'react-intl'
 import { MealBox, type Meal } from '../components/ui/MealBox'
 import { Notification } from '../components/ui/Notification'
 
-const Container = styled.div`
-  display: flex;
-  justify-content: 'center';
-  margin: 20px auto;
-`
+const Container = styled.div`margin: 20px auto;`
 
 type Props = {
   meals: Array<Meal>

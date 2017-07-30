@@ -60,5 +60,6 @@ export const fr = {
   /**
    * Form create food
    */
-  'form.createFood.exist': 'Ce produit existe déjà en base de donnée.'
+  'form.createFood.exist': 'Ce produit existe déjà en base de donnée.',
+  'form.createFood.successMessage': 'Le produit a été crée'
 }

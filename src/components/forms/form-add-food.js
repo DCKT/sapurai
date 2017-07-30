@@ -13,7 +13,7 @@ import {
   TableBody,
   TableHeader,
   TableHeaderColumn,
-  TableRow,
+  TableRow as MTableRow,
   TableRowColumn
 } from 'material-ui/Table'
 import styled from 'styled-components'
@@ -28,6 +28,14 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   margin: 10px;
+`
+
+const TableRow = styled(MTableRow)`
+  td {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    vertical-align: middle;
+    }
 `
 
 type Props = {
@@ -80,11 +88,6 @@ class BaseFormAddFood extends React.Component {
                   />
                 </TableHeaderColumn>
               </TableRow>
-              <TableRow>
-                <TableHeaderColumn>ID</TableHeaderColumn>
-                <TableHeaderColumn>Name</TableHeaderColumn>
-                <TableHeaderColumn>Status</TableHeaderColumn>
-              </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox deselectOnClickaway={false}>
               {foods.filter(food => food.name.toLowerCase().includes(filter)).map((food, i) =>
@@ -93,13 +96,24 @@ class BaseFormAddFood extends React.Component {
                   selected={!!this.state.selectedFoods.filter(sfood => sfood.id === food.id).length}
                 >
                   <TableRowColumn>
-                    {i}
-                  </TableRowColumn>
-                  <TableRowColumn>
                     {food.name}
                   </TableRowColumn>
                   <TableRowColumn>
-                    {food.kcal}
+                    <p>
+                      Pour {food.baseQuantity}g :{' '}
+                    </p>
+                    <div>
+                      Proteines : {food.protein}g
+                    </div>
+                    <div>
+                      Lipides : {food.lipids}g
+                    </div>
+                    <div>
+                      Glucides : {food.carbohydrates}g
+                    </div>
+                  </TableRowColumn>
+                  <TableRowColumn>
+                    {food.kcal} kCal
                   </TableRowColumn>
                 </TableRow>
               )}

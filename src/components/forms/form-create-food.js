@@ -10,10 +10,12 @@ import Dialog from 'material-ui/Dialog'
 import { injectIntl } from 'react-intl'
 import styled from 'styled-components'
 import { mapValues } from 'lodash'
+
 /**
  * Actions
  */
 import { createNewFood } from '../../actions/foods'
+import { createNotification } from '../../actions/notifications'
 
 const TextField = styled(MTextField)`
   margin: 0 10px;
@@ -168,24 +170,29 @@ class BaseFormCreateFood extends React.Component {
       return false
     } else {
       const data = mapValues(food, t => t.value)
-      createNewFood(data).then(() => toggleDialog()).catch(err => {
-        let errorMessage = formatMessage({ id: 'form.defaultError' })
 
-        if (err.message.includes('exist')) {
-          errorMessage = formatMessage({ id: 'form.createFood.exist' })
-        }
+      createNewFood(data)
+        .then(() => toggleDialog())
+        .then(() => createNotification(formatMessage({ id: 'form.createFood.successMessage' })))
+        .catch(err => {
+          let errorMessage = formatMessage({ id: 'form.defaultError' })
 
-        this.setState(state => ({
-          ...state,
-          formError: errorMessage
-        }))
-      })
+          if (err.message.includes('exist')) {
+            errorMessage = formatMessage({ id: 'form.createFood.exist' })
+          }
+
+          this.setState(state => ({
+            ...state,
+            formError: errorMessage
+          }))
+        })
     }
   };
 }
 
 const mapDispatchToProps = dispatch => ({
-  createNewFood: bindActionCreators(createNewFood, dispatch)
+  createNewFood: bindActionCreators(createNewFood, dispatch),
+  createNotification: bindActionCreators(createNotification, dispatch)
 })
 
 export const FormCreateFood = injectIntl(connect(null, mapDispatchToProps)(BaseFormCreateFood))

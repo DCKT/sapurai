@@ -5,6 +5,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { IntlProvider } from 'react-intl'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { find, toPairs } from 'lodash'
 
 import { Page } from './components/page'
 
@@ -59,9 +60,26 @@ app.auth().onAuthStateChanged(user => {
 
     mealsListener.on('value', snapshot => {
       const meals = snapshot.val()
+      const { foods } = store.getState()
 
       if (meals) {
-        store.dispatch(updateMealsList(Object.keys(meals).map(meal => meals[meal])))
+        const mealsArray = Object.keys(meals).map(meal => meals[meal])
+        console.log(foods)
+        store.dispatch(
+          updateMealsList(
+            mealsArray.map(meal => {
+              if (meal.foods) {
+                meal.foods = toPairs(meal.foods).map(food => {
+                  return find(foods.all, ({ id }) => {
+                    return food[1].id.toString() === id.toString()
+                  })
+                })
+              }
+
+              return meal
+            })
+          )
+        )
       }
     })
 

@@ -49,14 +49,16 @@ export const removeMealFromList = (id: string) => dispatch => {
   })
 }
 
-export const attachFoodToMeal = (mealId: string, foods: Array<Food>) => dispatch => {
-  return Promise.resolve(
+export const attachFoodToMeal = (mealId: string, foods: Array<Food>) => (
+  dispatch: Function,
+  getState: Function
+) => {
+  const { uid } = getState().session.user
+  const ref = app.database().ref(`meals/${uid}/${mealId}/foods`)
+
+  return Promise.all(foods.map(food => ref.push().set({ id: food.id }))).then(() =>
     dispatch({
-      type: ACTIONS.MEALS.ATTACH_FOOD,
-      payload: {
-        mealId,
-        foods
-      }
+      type: ACTIONS.MEALS.ATTACH_FOOD
     })
   )
 }

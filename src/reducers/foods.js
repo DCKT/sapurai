@@ -6,11 +6,6 @@ const initialState = {
 
 export const foodsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ACTIONS.FOODS.CREATE:
-      return {
-        ...state,
-        all: [...state.all, action.payload]
-      }
     case ACTIONS.FOODS.REMOVE:
       return {
         ...state,
